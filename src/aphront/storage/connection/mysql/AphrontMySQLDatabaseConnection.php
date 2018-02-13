@@ -39,7 +39,7 @@ final class AphrontMySQLDatabaseConnection
     $user = $this->getConfiguration('user');
     $host = $this->getConfiguration('host');
     $port = $this->getConfiguration('port');
-
+    
     if ($port) {
       $host .= ':'.$port;
     }
@@ -58,13 +58,14 @@ final class AphrontMySQLDatabaseConnection
       ini_set($timeout_ini, $timeout);
     }
 
+   $flags = MYSQL_CLIENT_SSL;
     try {
       $conn = @mysql_connect(
         $host,
         $user,
         $pass,
         $new_link = true,
-        $flags = 0);
+        $flags);
     } catch (Exception $ex) {
       if ($timeout) {
         ini_set($timeout_ini, $old_timeout);

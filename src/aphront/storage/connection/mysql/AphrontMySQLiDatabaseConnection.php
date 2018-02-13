@@ -40,6 +40,7 @@ final class AphrontMySQLiDatabaseConnection
     $database = $this->getConfiguration('database');
 
     $pass = $this->getConfiguration('pass');
+
     if ($pass instanceof PhutilOpaqueEnvelope) {
       $pass = $pass->openEnvelope();
     }
@@ -63,12 +64,15 @@ final class AphrontMySQLiDatabaseConnection
       $host = 'p:'.$host;
     }
 
+    $flags = MYSQLI_CLIENT_SSL;
     @$conn->real_connect(
       $host,
       $user,
       $pass,
       $database,
-      $port);
+      $port,
+      null /* socket */,
+      $flags);
 
     $errno = $conn->connect_errno;
     if ($errno) {
