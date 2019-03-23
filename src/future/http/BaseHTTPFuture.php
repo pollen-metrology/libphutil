@@ -273,7 +273,7 @@ abstract class BaseHTTPFuture extends Future {
       return strlen($data);
     }
 
-    return strlen(http_build_query($data, '', '&'));
+    return strlen(phutil_build_http_querystring($data));
   }
 
 
@@ -311,7 +311,7 @@ abstract class BaseHTTPFuture extends Future {
    */
   protected function parseRawHTTPResponse($raw_response) {
     $rex_base = "@^(?P<head>.*?)\r?\n\r?\n(?P<body>.*)$@s";
-    $rex_head = "@^HTTP/\S+ (?P<code>\d+) (?P<status>.*?)".
+    $rex_head = "@^HTTP/\S+ (?P<code>\d+) ?(?P<status>.*?)".
                 "(?:\r?\n(?P<headers>.*))?$@s";
 
     // We need to parse one or more header blocks in case we got any
